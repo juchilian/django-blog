@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mt-5">This is blog_post_list.html</h1>
+{% for post in posts %}
+
+    <li><a href="/blog/{{post.slug}}/">{{ post.title }}</a></li>
+
+{% empty %}
+    <li>No posts</li>
+{% endfor %}
+
+
+{% endblock content %}
