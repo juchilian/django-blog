@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 
@@ -18,6 +20,8 @@ def blog_post_list_view(request):
     template_name = 'blog/list.html'
     return render(request, template_name, context)
 
+# @staff_member_required
+@login_required
 def blog_post_create_view(request):
     # create obj
     # use a form
