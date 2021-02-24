@@ -7,14 +7,17 @@ from .forms import BlogPostModelForm
 from .models import BlogPost
 
 def home_view(request):
-    posts = BlogPost.objects.all()[:5]
+    posts = BlogPost.objects.published()[:5]
     context = {"title":"Welcome to DJ BLog!!", "posts": posts}
     return render(request, 'home.html', context)
 
 def blog_post_list_view(request):
     # list out objects
     # could be search
-    qs = BlogPost.objects.all() # queryset -> list of python object
+    qs = BlogPost.objects.all().published() # queryset -> list of python object
+    if request.user.is_authenticated:
+        my_qs = BlogPost.objects.filter(user=request.user)
+        qs = (qs | my_qs).distinct()
     context = {"title":"All Blog Posts", 'posts': qs}
     template_name = 'blog/list.html'
     return render(request, template_name, context)
