@@ -22,11 +22,13 @@ from blog.views import (
     blog_post_create_view, 
 )
 
+from searches.views import search_view
 urlpatterns = [
     path('', home_view),
 
     path('blog-new/', blog_post_create_view),
     path('blog/', include('blog.urls')),
+    path('search/', search_view),
     path('admin/', admin.site.urls),
 ]
 
