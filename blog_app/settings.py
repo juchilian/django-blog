@@ -9,9 +9,11 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
+import environ
 import os
 
+env = environ.Env()
+env.read_env('.env')
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -20,12 +22,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '78jq3r%eosrwfqq@ys=qfjh%qf95(b1j_y#@(%g3$_v$rf==s*'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['127.0.0.1', '18.181.192.92', 'ec2-18-181-192-92.ap-northeast-1.compute.amazonaws.com']
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 LOGIN_URL = '/login'
 
@@ -41,6 +43,8 @@ INSTALLED_APPS = [
     # My apps
     'blog',
     'searches',
+    # aws
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -78,14 +82,7 @@ WSGI_APPLICATION = 'blog_app.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'django_blog_db',
-        'USER': 'admin',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': '5432'
-    }
+    'default': env.db()
 }
 
 
@@ -135,3 +132,14 @@ STATICFILES_DIRS = [
 
 MEDIA_ROOT = os.path.join(LOCAL_STATIC_CDN_PATH, 'media')
 MEDIA_URL = '/media/'
+
+#S3 BUCKETS CONFIG
+# AWS_S3_HOST = 's3.ap-northeast-1.amazonaws.com' # You'll need this if you specify the region on AWS
+# AWS_S3_REGION_NAME = 'ap-northeast-1' # You'll need this if you specify the region on AWS
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage' # Prioritize AWS S3 over Local
