@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from django.http import Http404
@@ -33,6 +34,7 @@ def blog_post_create_view(request):
         obj.user = request.user
         obj.save()
         form = BlogPostModelForm()
+        messages.success(request, "正常に投稿されました！")
         return redirect("/blog")
 
     context = {'title': '新規投稿', 'form': form}
@@ -56,6 +58,7 @@ def blog_post_update_view(request, slug):
     form = BlogPostModelForm(request.POST or None, instance=post)
     if form.is_valid():
         form.save()
+        messages.success(request, "正常に更新されました！")
         return redirect("/blog")
     context = {"title": f"Update {post.title}", 'form': form}
     template_name = 'blog/form.html'
