@@ -35,7 +35,7 @@ def blog_post_create_view(request):
         form = BlogPostModelForm()
         return redirect("/blog")
 
-    context = {'form': form}
+    context = {'title': '新規投稿', 'form': form}
     template_name = 'blog/form.html'
     return render(request, template_name, context)
 
@@ -56,6 +56,7 @@ def blog_post_update_view(request, slug):
     form = BlogPostModelForm(request.POST or None, instance=post)
     if form.is_valid():
         form.save()
+        return redirect("/blog")
     context = {"title": f"Update {post.title}", 'form': form}
     template_name = 'blog/form.html'
     return render(request, template_name, context)

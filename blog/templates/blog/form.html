@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load bootstrap4 %}
 
 
 {% block content %}
@@ -9,8 +9,10 @@
 {% endif %}
 
 <form method='POST' action='.' enctype="multipart/form-data"> {% csrf_token %}
-    {{ form.as_p }}
-    <button type='submit'>Send</button>
+    {% bootstrap_form form layout='horizontal' %}
+    <!-- {{ form.as_p }} -->
+    <button type='submit' class="btn btn-primary">送信</button>
+    <a href="{% url 'blog:blog_list' %}" class="btn btn-secondary btn-sm">戻る</a>
 </form> 
 
 
