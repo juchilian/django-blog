@@ -22,8 +22,8 @@ def blog_post_list_view(request):
     template_name = 'blog/list.html'
     return render(request, template_name, context)
 
-# @login_required
-@staff_member_required
+# @staff_member_required
+@login_required(login_url='/accounts/login/')
 def blog_post_create_view(request):
     # create obj
     # use a form
@@ -33,6 +33,7 @@ def blog_post_create_view(request):
         obj.user = request.user
         obj.save()
         form = BlogPostModelForm()
+        return redirect("/blog")
 
     context = {'form': form}
     template_name = 'blog/form.html'
@@ -41,11 +42,15 @@ def blog_post_create_view(request):
 def blog_post_detail_view(request, slug):
     # 1 object -> detail view
     post = get_object_or_404(BlogPost, slug=slug)
-    context = {"post": post}   
+    is_auther = False
+    if post.user == request.user:
+        is_auther = True
+    context = {"post": post, "is_auther": is_auther}   
     template_name = 'blog/detail.html'
     return render(request, template_name, context)
 
-@staff_member_required
+# @staff_member_required
+@login_required(login_url='/accounts/login/')
 def blog_post_update_view(request, slug):
     post = get_object_or_404(BlogPost, slug=slug)
     form = BlogPostModelForm(request.POST or None, instance=post)
@@ -55,7 +60,8 @@ def blog_post_update_view(request, slug):
     template_name = 'blog/form.html'
     return render(request, template_name, context)
 
-@staff_member_required
+# @staff_member_required
+@login_required(login_url='/accounts/login/')
 def blog_post_delete_view(request, slug):
     post = get_object_or_404(BlogPost, slug=slug)
     template_name = 'blog/delete.html'

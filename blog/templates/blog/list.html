@@ -1,8 +1,12 @@
 {% extends "base.html" %}
+{% load account %}
 
 {% block content %}
 {% if title %}
     <h1 class="my-3">{{ title }}</h1>
+    <!-- {% if request.user.is_authenticated %} -->
+        ようこそ{% user_display user %}さん
+    <!-- {% endif %} -->
 {% endif %}
 
     <div class="row">
