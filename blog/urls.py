@@ -8,8 +8,9 @@ from .views import (
     blog_post_delete_view
 )
 
+app_name = 'blog'
 urlpatterns = [
-    path('', blog_post_list_view),
+    path('', blog_post_list_view, name='blog_list'),
     path('<slug:slug>/', blog_post_detail_view),
     path('<slug:slug>/edit/', blog_post_update_view),
     path('<slug:slug>/delete/', blog_post_delete_view),
