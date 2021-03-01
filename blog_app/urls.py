@@ -25,7 +25,7 @@ from blog.views import (
 from searches.views import search_view
 urlpatterns = [
     path('', home_view),
-
+    path('accounts/', include('allauth.urls')),
     path('blog-new/', blog_post_create_view),
     path('blog/', include('blog.urls')),
     path('search/', search_view),
