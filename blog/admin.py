@@ -1,6 +1,8 @@
 from django.contrib import admin
-
-# Register your models here.
+from import_export.admin import ImportExportModelAdmin
+from .adminResources import BlogPostResource
 from .models import BlogPost
 
-admin.site.register(BlogPost)
+@admin.register(BlogPost)
+class BlogPostAdmin(ImportExportModelAdmin):
+    resource_class = BlogPostResource
