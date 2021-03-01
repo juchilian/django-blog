@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'bootstrap4',
+    'import_export',
     # My apps
     'blog',
     'core',
