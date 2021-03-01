@@ -10,3 +10,4 @@ def user_logged_in_receiver(request, user, *args, **kwargs):
     pass
 
 user_logged_in.connect(user_logged_in_receiver, sender=User)
+# \copy blog_blogpost from 'C:\Users\juchi\Desktop\program\Python\django\django-blog\blog_app\data\django-blog-postgres.csv' with csv header

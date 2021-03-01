@@ -38,8 +38,8 @@ class BlogPost(models.Model):
     slug = models.SlugField(unique=True)
     content = models.TextField(null=True, blank=True)
     publish_date = models.DateTimeField(auto_now=False, auto_now_add=False, null=True, blank=True) # When you published
-    timestamp = models.DateTimeField(auto_now_add=True) # When you create
-    updated = models.DateTimeField(auto_now=True) # When you update
+    timestamp = models.DateTimeField(auto_now_add=True, null=True) # When you create
+    updated = models.DateTimeField(auto_now=True, null=True) # When you update
 
     objects = BlogPostManager()
 
